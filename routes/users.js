@@ -4,13 +4,16 @@ var _ = require('lodash');
 var logger = require('../lib/logger');
 var log = logger();
 
+
 var users = require('../init_data.json').data;
 var curId = _.size(users);
 
 /* GET users listing. */
 router.get('/', function(req, res) {
-  res.json(_.toArray(users));
-});
+ let data = res.json(_.toArray(users));
+ res.sendFile(__dirname + 'public/admin.html');
+
+})
 
 /* Create a new user */
 router.post('/', function(req, res) {
@@ -49,9 +52,17 @@ router.put('/:id', function(req, res, next) {
     return next(new Error('ID paramter does not match body'));
   }
   users[user.id] = user;
+  users[user.email] = user;
+  users[user.firstName] = user;
+  users[user.lastName] = user;
   log.info('Updating user', user);
   res.json(user);
 });
+
+// router.get('/', function(req, res) {
+//   let data = res.json(_.toArray(users));
+//   res.render('admin', {data: data.username})
+//  })
 
 
 module.exports = router;

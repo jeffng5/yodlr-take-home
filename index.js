@@ -12,6 +12,7 @@ var users = require('./routes/users');
 var app = express();
 var log = logger(app);
 
+app.use(express.json())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -38,11 +39,15 @@ app.use(function(err, req, res, next) {
   });
 });
 
+
 app.set('port', process.env.PORT || 3000);
 
 var server = app.listen(app.get('port'), function() {
   log.info(
-    'Express server listening on http://localhost:%d',
+    'Express server listening on http://127.0.0.1:%d',
     server.address().port
   );
 });
+
+
+
